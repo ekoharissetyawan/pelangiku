@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jom Belajar Pelangi! 🌈 - Media Interaktif Prasekolah</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Comfortaa & Quicksand -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700;900&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * {
+            font-family: 'Comfortaa', 'Quicksand', cursive, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        /* Animasi Lembut Khas Kanak-kanak */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255, 230, 0, 0.6)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 18px rgba(255, 200, 0, 0.9)); }
+        }
+
+        @keyframes bounceCute {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes rainFall {
+            0% { transform: translateY(-10px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(120px); opacity: 0.2; }
+        }
+
+        .animate-float { animation: floatSlow 3.5s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulseGlow 2.5s ease-in-out infinite; }
+        .animate-bounce-cute { animation: bounceCute 1.6s ease-in-out infinite; }
+
+        /* Gaya Butang 3D Taktil Kanak-Kanak */
+        .btn-kid {
+            transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+        .btn-kid:active {
+            transform: translateY(6px) scale(0.97) !important;
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2) !important;
+        }
+
+        /* Skrin Transisi */
+        .app-screen {
+            display: none;
+            opacity: 0;
+            transform: scale(0.96);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+        .app-screen.active {
+            display: flex;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Jalur Pelangi Berkilau */
+        .rainbow-stripe {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .rainbow-stripe:hover, .rainbow-stripe:active {
+            transform: scaleY(1.15);
+            filter: brightness(1.2);
+        }
+
+        /* Latar Belakang Awan Bergerak */
+        .cloud-bg {
+            background-image: radial-gradient(#ffffff 25%, transparent 25%), radial-gradient(#ffffff 25%, transparent 25%);
+            background-position: 0 0, 30px 30px;
+            background-size: 60px 60px;
+        }
+    </style>
+</head>
+<body class="bg-sky-200 text-slate-800 min-h-screen flex items-center justify-center p-2 sm:p-4 overflow-x-hidden">
+
+    <!-- BEKAS UTAMA APLIKASI (KAD INTERAKTIF PENUH) -->
+    <main class="w-full max-w-5xl h-[92vh] min-h-[620px] max-h-[850px] bg-white/95 backdrop-blur-md rounded-[3rem] shadow-2xl border-8 border-sky-300 flex flex-col relative overflow-hidden">
+        
+        <!-- PALANG ATAS (NAVIGASI & SKOR) -->
+        <header class="h-20 bg-gradient-to-r from-sky-400 via-teal-300 to-amber-300 px-4 sm:px-8 flex items-center justify-between border-b-4 border-sky-300 z-30 shadow-sm">
+            <!-- Butang Laman Utama & Suara -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <button id="btnHome" onclick="goToScreen(0)" class="btn-kid bg-white hover:bg-amber-100 text-sky-700 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center shadow-[0_5px_0_#0284c7] text-2xl" title="Laman Utama">
+                    🏠
+                </button>
+                <button id="btnSoundToggle" onclick="toggleVoice()" class="btn-kid bg-white hover:bg-amber-100 text-amber-600 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center shadow-[0_5px_0_#d97706] text-2xl" title="Bunyi & Suara">
+                    🔊
+                </button>
+                <button onclick="repeatCurrentVoice()" class="btn-kid bg-white hover:bg-emerald-100 text-emerald-600 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl flex items-center gap-2 shadow-[0_5px_0_#059669] font-bold text-sm sm:text-base" title="Dengar Suara Semula">
+                    <span>🗣️</span>
+                    <span class="hidden md:inline">Ulang Suara</span>
+                </button>
+            </div>
+
+            <!-- Tajuk Skrin Semasa -->
+            <div class="text-center px-2">
+                <span id="screenIndicator" class="bg-white/80 text-sky-900 text-xs sm:text-sm font-extrabold px-3 py-1 rounded-full shadow-inner">
+                    1 / 15
+                </span>
+                <h1 id="screenTitle" class="text-sky-950 text-sm sm:text-lg font-black truncate max-w-[200px] sm:max-w-xs">
+                    Jom Mula!
+                </h1>
+            </div>
+
+            <!-- Pengumpul Bintang Hadiah -->
+            <div class="flex items-center gap-2 bg-white/90 px-3 sm:px-4 py-2 rounded-2xl border-2 border-amber-300 shadow-[0_4px_0_#f59e0b]">
+                <span class="text-2xl sm:text-3xl animate-spin-slow">⭐</span>
+                <span id="starCounter" class="text-amber-600 text-xl sm:text-2xl font-black">0</span>
+            </div>
+        </header>
+
+        <!-- KAWASAN KANDUNGAN SKRIN -->
+        <div class="flex-1 relative overflow-hidden p-3 sm:p-6 flex flex-col items-center justify-center bg-gradient-to-b from-sky-50 via-white to-sky-100">
+
+            <!-- ==================== SKRIN 1: HALAMAN PEMBUKA ==================== -->
+            <section id="screen-0" class="app-screen active flex-col items-center justify-between w-full h-full text-center py-2">
+                <div class="animate-bounce-cute my-auto">
+                    <!-- Ilustrasi Matahari & Pelangi Kartun SVG -->
+                    <div class="relative w-64 h-48 sm:w-80 sm:h-56 mx-auto">
+                        <!-- Pelangi -->
+                        <svg class="w-full h-full drop-shadow-lg" viewBox="0 0 200 120">
+                            <path d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="#ef4444" stroke-width="12" stroke-linecap="round"/>
+                            <path d="M 30 110 A 70 70 0 0 1 170 110" fill="none" stroke="#f97316" stroke-width="12" stroke-linecap="round"/>
+                            <path d="M 40 110 A 60 60 0 0 1 160 110" fill="none" stroke="#eab308" stroke-width="12" stroke-linecap="round"/>
+                            <path d="M 50 110 A 50 50 0 0 1 150 110" fill="none" stroke="#22c55e" stroke-width="12" stroke-linecap="round"/>
+                            <path d="M 60 110 A 40 40 0 0 1 140 110" fill="none" stroke="#06b6d4" stroke-width="12" stroke-linecap="round"/>
+                            <path d="M 70 110 A 30 30 0 0 1 130 110" fill="none" stroke="#3b82f6" stroke-width="12" stroke-linecap="round"/>
+                            <path d="M 80 110 A 20 20 0 0 1 120 110" fill="none" stroke="#a855f7" stroke-width="12" stroke-linecap="round"/>
+                        </svg>
+                        <!-- Awan Tersenyum -->
+                        <div class="absolute -bottom-2 -left-4 text-5xl sm:text-6xl animate-float">☁️</div>
+                        <div class="absolute -bottom-2 -right-4 text-5xl sm:text-6xl animate-float" style="animation-delay: 1.5s;">☁️</div>
+                        <!-- Matahari Ceria -->
+                        <div class="absolute -top-6 -right-6 text-6xl sm:text-7xl animate-pulse-glow">☀️</div>
+                        <!-- Titisan Air Comel -->
+                        <div class="absolute top-1/2 left-2 text-3xl sm:text-4xl animate-bounce">💧</div>
+                    </div>
+                </div>
+
+                <div class="my-auto">
+                    <h2 class="text-3xl sm:text-5xl font-black text-sky-800 tracking-wide drop-shadow-sm mb-2">
+                        YUK, BERMAIN DENGAN PELANGI! 🌈
+                    </h2>
+                    <p class="text-lg sm:text-2xl text-sky-600 font-bold max-w-xl mx-auto">
+                        Jom teroka bagaimana pelangi yang indah terbentuk di langit!
+                    </p>
+                </div>
+
+                <!-- Butang Mula Besar -->
+                <div class="mt-auto pb-4">
+                    <button onclick="startApp()" class="btn-kid bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 hover:brightness-110 text-white font-black text-2xl sm:text-4xl px-10 sm:px-14 py-4 sm:py-6 rounded-full shadow-[0_10px_0_#c2410c] flex items-center gap-4 mx-auto border-4 border-white animate-pulse">
+                        <span>▶</span>
+                        <span>JOM MULA!</span>
+                        <span>🎉</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ==================== SKRIN 2: KENALI 7 WARNA PELANGI ==================== -->
+            <section id="screen-1" class="app-screen flex-col items-center justify-between w-full h-full py-2">
+                <div class="text-center">
+                    <h2 class="text-2xl sm:text-3xl font-black text-sky-900">7 Warna Indah Pelangi 🌈</h2>
+                    <p class="text-sky-700 font-bold text-sm sm:text-lg">Sentuh setiap jalur warna untuk mendengar bunyinya!</p>
+                </div>
+
+                <!-- Paparan Jalur Pelangi Interaktif -->
+                <div class="w-full max-w-2xl bg-white p-4 rounded-3xl border-4 border-sky-200 shadow-lg flex flex-col gap-2 my-auto">
+                    <div onclick="clickRainbowColor('Merah', '#ef4444', 261.63)" class="rainbow-stripe cursor-pointer bg-red-500 text-white font-black py-2.5 px-4 rounded-2xl flex items-center justify-between shadow-md">
+                        <span class="flex items-center gap-3 text-lg sm:text-xl">🔴 Merah</span>
+                        <span class="text-sm bg-white/30 px-3 py-0.5 rounded-full">Nada 1</span>
+                    </div>
+                    <div onclick="clickRainbowColor('Jingga', '#f97316', 293.66)" class="rainbow-stripe cursor-pointer bg-orange-500 text-white font-black py-2.5 px-4 rounded-2xl flex items-center justify-between shadow-md">
+                        <span class="flex items-center gap-3 text-lg sm:text-xl">🟠 Jingga</span>
+                        <span class="text-sm bg-white/30 px-3 py-0.5 rounded-full">Nada 2</span>
+                    </div>
+                    <div onclick="clickRainbowColor('Kuning', '#eab308', 329.63)" class="rainbow-stripe cursor-pointer bg-yellow-400 text-yellow-950 font-black py-2.5 px-4 rounded-2xl flex items-center justify-between shadow-md">
+                        <span class="flex items-center gap-3 text-lg sm:text-xl">🟡 Kuning</span>
+                        <span class="text-sm bg-black/10 px-3 py-0.5 rounded-full">Nada 3</span>
+                    </div>
+                    <div onclick="clickRainbowColor('Hijau', '#22c55e', 349.23)" class="rainbow-stripe cursor-pointer bg-green-500 text-white font-black py-2.5 px-4 rounded-2xl flex items-center justify-between shadow-md">
+                        <span class="flex items-center gap-3 text-lg sm:text-xl">🟢 Hijau</span>
+                        <span class="text-sm bg-white/30 px-3 py-0.5 rounded-full">Nada 4</span>
+                    </div>
+                    <div onclick="clickRainbowColor('Biru', '#06b6d4', 392.00)" class="rainbow-stripe cursor-pointer bg-cyan-500 text-white font-black py-2.5 px-4 rounded-2xl flex items-center justify-between shadow-md">
+                        <span class="flex items-center gap-3 text-lg sm:text-xl">🔵 Biru</span>
+                        <span class="text-sm bg-white/30 px-3 py-0.5 rounded-full">Nada 5</span>
+                    </div>
+                    <div onclick="clickRainbowColor('Nila', '#3b82f6', 440.00)" class="rainbow-stripe cursor-pointer bg-blue-600 text-white font-black py-2.5 px-4 rounded-2xl flex items-center justify-between shadow-md">
+                        <span class="flex items-center gap-3 text-lg sm:text-xl">🔹 Nila</span>
+                        <span class="text-sm bg-white/30 px-3 py-0.5 rounded-full">Nada 6</span>
+                    </div>
+                    <div onclick="clickRainbowColor('Ungu', '#a855f7', 493.88)" class="rainbow-stripe cursor-pointer bg-purple-500 text-white font-black py-2.5 px-4 rounded-2xl flex items-center justify-between shadow-md">
+                        <span class="flex items-center gap-3 text-lg sm:text-xl">🟣 Ungu</span>
+                        <span class="text-sm bg-white/30 px-3 py-0.5 rounded-full">Nada 7</span>
+                    </div>
+                </div>
+
+                <!-- Kotak Maklum Balas Suara -->
+                <div id="colorFeedbackBox" class="bg-amber-100 text-amber-900 border-2 border-amber-300 font-black text-base sm:text-xl px-6 py-2 rounded-2xl shadow-sm text-center">
+                    Petua: Ingat singkatan <strong>ME-JI-KU-HI-BI-NI-U</strong>! 🎶
+                </div>
+            </section>
+
+            <!-- ==================== SKRIN 3: CERITA DARI MANA DATANG PELANGI ==================== -->
+            <section id="screen-2" class="app-screen flex-col items-center justify-between w-full h-full py-2">
+                <div class="text-center">
+                    <h2 class="text-2xl sm:text-3xl font-black text-sky-900">Dari Mana Datangnya Pelangi? 🌧️☀️</h2>
+                    <p class="text-sky-700 font-bold text-sm sm:text-lg">Tekan langkah 1, 2, 3 untuk melihat kisahnya!</p>
+                </div>
+
+                <!-- Peringkat Cerita Bergambar -->
+                <div class="w-full max-w-3xl flex-1 flex flex-col items-center justify-center my-2">
+                    <!-- Pentas Cerita Kartun -->
+                    <div id="storyVisualArea" class="w-full h-52 sm:h-64 bg-gradient-to-b from-sky-200 to-sky-100 rounded-3xl border-4 border-sky-300 shadow-inner flex items-center justify-center relative overflow-hidden p-4">
+                        <!-- Elemen Animasi Cerita (Dinikmati menerusi JS) -->
+                        <div id="storyActors" class="flex items-center justify-center gap-6">
+                            <!-- Kandungan dinamik dijana dalam fungsi renderStory() -->
+                        </div>
+                    </div>
+
+                    <!-- Kad Teks Penjelasan Mudah -->
+                    <div id="storyCardText" class="mt-4 bg-white p-4 sm:p-5 rounded-3xl border-4 border-sky-200 shadow-md text-center max-w-xl">
+                        <p class="text-sky-900 font-extrabold text-lg sm:text-2xl leading-snug">
+                            1. Mula-mula, hujan turun membasahi bumi. 🌧️
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Navigasi Langkah Cerita -->
+                <div class="flex items-center gap-3">
+                    <button onclick="changeStoryStep(1)" id="storyStepBtn1" class="btn-kid bg-sky-500 text-white font-black px-5 py-3 rounded-2xl text-base shadow-[0_5px_0_#0369a1]">
+                        1. Hujan 🌧️
+                    </button>
+                    <button onclick="changeStoryStep(2)" id="storyStepBtn2" class="btn-kid bg-amber-400 text-amber-950 font-black px-5 py-3 rounded-2xl text-base shadow-[0_5px_0_#b45309]">
+                        2. Matahari ☀️
+                    </button>
+                    <button onclick="changeStoryStep(3)" id="storyStepBtn3" class="btn-kid bg-emerald-400 text-emerald-950 font-black px-5 py-3 rounded-2xl text-base shadow-[0_5px_0_#047857]">
+                        3. Pelangi! 🌈
+                    </button>
+                </div>
+            </section>
+
+            <!-- ==================== SKRIN 4: SIMULASI PANCARAN CAHAYA ==================== -->
+            <section id="screen-3" class="app-screen flex-col items-center justify-between w-full h-full py-2">
+                <div class="text-center">
+                    <h2 class="text-2xl sm:text-3xl font-black text-sky-900">Mari Lihat Keajaibannya! ✨</h2>
+                    <p class="text-sky-700 font-bold text-sm sm:text-lg">Tekan butang kuning untuk pancarkan cahaya matahari ke dalam titisan air!</p>
+                </div>
+
+                <!-- Kawasan Simulasi Interaktif -->
+                <div class="w-full max-w-3xl flex-1 bg-gradient-to-r from-sky-100 via-white to-sky-100 rounded-3xl border-4 border-sky-300 shadow-lg relative flex items-center justify-between px-6 sm:px-12 my-2 overflow-hidden">
+                    <!-- Matahari Sumber Cahaya -->
+                    <div class="flex flex-col items-center z-10">
+                        <div id="simSun" class="text-6xl sm:text-8xl animate-pulse cursor-pointer">☀️</div>
+                        <span class="font-extrabold text-amber-800 text-xs sm:text-sm mt-1">Matahari</span>
+                    </div>
+
+                    <!-- Sinaran Cahaya (Dihidupkan bila klik) -->
+                    <div class="flex-1 h-12 relative mx-2 flex items-center">
+                        <div id="simBeamWhite" class="h-4 bg-amber-200 rounded-full w-0 transition-all duration-700 shadow-[0_0_15px_#fde047]"></div>
+                    </div>
+
+                    <!-- Titisan Air Ajaib -->
+                    <div class="flex flex-col items-center z-10 relative">
+                        <div id="simDrop" class="text-6xl sm:text-8xl cursor-pointer transition-transform duration-300 hover:scale-110">💧</div>
+                        <span class="font-extrabold text-cyan-800 text-xs sm:text-sm mt-1">Titisan Air</span>
+                    </div>
+
+                    <!-- Pancaran Pelangi Yang Keluar -->
+                    <div class="flex-1 h-28 relative mx-2 flex items-center justify-center">
+                        <div id="simRainbowBeam" class="opacity-0 scale-75 transition-all duration-700 flex flex-col w-full h-20 rounded-xl overflow-hidden shadow-lg">
+                            <div class="h-1/7 bg-red-500"></div>
+                            <div class="h-1/7 bg-orange-500"></div>
+                            <div class="h-1/7 bg-yellow-400"></div>
+                            <div class="h-1/7 bg-green-500"></div>
+                            <div class="h-1/7 bg-cyan-500"></div>
+                            <div class="h-1/7 bg-blue-600"></div>
+                            <div class="h-1/7 bg-purple-500"></div>
+                        </div>
+                    </div>
+
+                    <!-- Mata Kita Yang Memerhati -->
+                    <div class="flex flex-col items-center z-10">
+                        <div class="text-5xl sm:text-7xl">👧👦</div>
+                        <span class="font-extrabold text-emerald-800 text-xs sm:text-sm mt-1">Mata Kita</span>
+                    </div>
+                </div>
+
+                <!-- Butang Aksi Utama -->
+                <div class="flex flex-col items-center gap-2">
+                    <button id="btnSimulateLight" onclick="triggerLightSimulation()" class="btn-kid bg-gradient-to-r from-amber-400 to-yellow-500 hover:brightness-110 text-amber-950 font-black text-xl sm:text-2xl px-8 py-4 rounded-3xl shadow-[0_8px_0_#b45309] flex items-center gap-3 border-2 border-white">
+                        <span>✨</span>
+                        <span>PANCARKAN CAHAYA!</span>
+                        <span>☀️</span>
+                    </button>
+                    <p id="simStatusText" class="text-sky-900 font-extrabold text-sm sm:text-base">
+                        Cahaya matahari bertemu air, lalu terpecah menjadi 7 warna!
+                    </p>
+                </div>
+            </section>
+
+            <!-- ==================== SKRIN 5: AKTIVITI 1 - CARI WARNA PELANGI ==================== -->
+            <section id="screen-4" class="app-screen flex-col items-center justify-between w-full h-full py-2">
+                <div class="text-center">
+                    <h2 class="text-2xl sm:text-3xl font-black text-rose-800">Aktiviti 1: Cari Warna Pelangi 🎨</h2>
+                    <p id="findColorPrompt" class="text-rose-950 font-extrabold text-lg sm:text-2xl bg-rose-100 border-2 border-rose-300 px-6 py-2 rounded-2xl inline-block mt-1">
+                        Di manakah warna <strong>MERAH</strong>? 🔴
+                    </p>
+                </div>
+
+                <!-- Buih-buih Warna Untuk Disentuh -->
+                <div class="w-full max-w-2xl grid grid-cols-3 sm:grid-cols-4 gap-4 p-4 my-auto">
+                    <button onclick="checkColorPick('Merah')" class="btn-kid h-24 sm:h-28 rounded-3xl bg-red-500 border-4 border-white shadow-[0_8px_0_#991b1b] flex flex-col items-center justify-center text-white font-black text-lg sm:text-xl active:scale-95">
+                        <span class="text-3xl sm:text-4xl">🔴</span>
+                        <span>Merah</span>
+                    </button>
+                    <button onclick="checkColorPick('Kuning')" class="btn-kid h-24 sm:h-28 rounded-3xl bg-yellow-400 border-4 border-white shadow-[0_8px_0_#854d0e] flex flex-col items-center justify-center text-yellow-950 font-black text-lg sm:text-xl active:scale-95">
+                        <span class="text-3xl sm:text-4xl">🟡</span>
+                        <span>Kuning</span>
+                    </button>
+                    <button onclick="checkColorPick('Hijau')" class="btn-kid h-24 sm:h-28 rounded-3xl bg-green-500 border-4 border-white shadow-[0_8px_0_#166534] flex flex-col items-center justify-center text-white font-black text-lg sm:text-xl active:scale-95">
+                        <span class="text-3xl sm:text-4xl">🟢</span>
+                        <span>Hijau</span>
+                    </button>
+                    <button onclick="checkColorPick('Biru')" class="btn-kid h-24 sm:h-28 rounded-3xl bg-cyan-500 border-4 border-white shadow-[0_8px_0_#155e75] flex flex-col items-center justify-center text-white font-black text-lg sm:text-xl active:scale-95">
+                        <span class="text-3xl sm:text-4xl">🔵</span>
+                        <span>Biru</span>
+                    </button>
+                    <button onclick="checkColorPick('Ungu')" class="btn-kid h-24 sm:h-28 rounded-3xl bg-purple-500 border-4 border-white shadow-[0_8px_0_#581c87] flex flex-col items-center justify-center text-white font-black text-lg sm:text-xl active:scale-95">
+                        <span class="text-3xl sm:text-4xl">🟣</span>
+                        <span>Ungu</span>
+                    </button>
+                    <button onclick="checkColorPick('Jingga')" class="btn-kid h-24 sm:h-28 rounded-3xl bg-orange-500 border-4 border-white shadow-[0_8px_0_#9a3412] flex flex-col items-center justify-center text-white font-black text-lg sm:text-xl active:scale-95">
+                        <span class="text-3xl sm:text-4xl">🟠</span>
+                        <span>Jingga</span>
+                    </button>
+                </div>
+
+                <!-- Maklum Balas Kemenangan / Pembetulan -->
+                <div id="findColorFeedback" class="text-center font-extrabold text-base sm:text-xl text-sky-900 h-10 flex items-center justify-center">
+                    Sentuh warna yang betul di atas! ✨
+                </div>
+            </section>
+
+            <!-- ==================== SKRIN 6: AKTIVITI 2 - SUSUN PELANGI ==================== -->
+            <section id="screen-5" class="app-screen flex-col items-center justify-between w-full h-full py-2">
+                <div class="text-center">
+                    <h2 class="text-2xl sm:text-3xl font-black text-sky-900">Aktiviti 2: Susun Warna Pelangi! 🧩</h2>
+                    <p class="text-sky-700 font-bold text-sm sm:text-lg">Sentuh jalur warna mengikut turutan: <strong>Merah → Kuning → Hijau → Biru → Ungu</strong></p>
+                </div>
+
+                <!-- Tempat Pelangi Terbina -->
+                <div class="w-full max-w-xl h-44 sm:h-52 bg-sky-50 rounded-3xl border-4 border-sky-300 p-3 flex flex-col justify-end items-center my-auto shadow-inner relative overflow-hidden">
+                    <div id="puzzleArchContainer" class="w-full h-full flex flex-col-reverse items-center justify-end gap-1 pb-2">
+                        <!-- Jalur yang telah berjaya diletakkan akan muncul di sini -->
+                    </div>
+                    <div id="puzzleDoneBanner" class="hidden absolute inset-0 bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center text-center p-4">
+                        <span class="text-5xl animate-bounce">🎉🌈</span>
+                        <h3 class="text-2xl font-black text-emerald-600 mt-2">Hebat! Pelangimu Dah Siap!</h3>
+                        <button onclick="resetPuzzleGame()" class="btn-kid bg-emerald-500 text-white font-bold px-6 py-2 rounded-2xl shadow-[0_4px_0_#047857] mt-2">
+                            Susun Semula 🔄
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pilihan Warna Tersedia Untuk Dipilih -->
+                <div class="w-full max-w-xl">
+                    <p class="text-center font-bold text-xs sm:text-sm text-sky-800 mb-2">Pilih jalur seterusnya:</p>
+                    <div class="flex flex-wrap justify-center gap-2 sm:gap-3">
+                        <button onclick="addPuzzlePiece('Merah', '#ef4444')" class="btn-kid px-4 py-2 rounded-2xl bg-red-500 text-white font-black text-sm shadow-[0_4px_0_#991b1b]">🔴 Merah</button>
+                        <button onclick="addPuzzlePiece('Kuning', '#eab308')" class="btn-kid px-4 py-2 rounded-2xl bg-yellow-400 text-yellow-950 font-black text-sm shadow-[0_4px_0_#854d0e]">🟡 Kuning</button>
+                        <button onclick="addPuzzlePiece('Hijau', '#22c55e')" class="btn-kid px-4 py-2 rounded-2xl bg-green-500 text-white font-black text-sm shadow-[0_4px_0_#166534]">🟢 Hijau</button>
+                        <button onclick="addPuzzlePiece('Biru', '#06b6d4')" class="btn-kid px-4 py-2 rounded-2xl bg-cyan-500 text-white font-black text-sm shadow-[0_4px_0_#155e75]">🔵 Biru</button>
+                        <button onclick="addPuzzlePiece('Ungu', '#a855f7')" class="btn-kid px-4 py-2 rounded-2xl bg-purple-500 text-white font-black text-sm shadow-[0_4px_0_#581c87]">🟣 Ungu</button>
+                    </div>
+                </div>
+
+                <div id="puzzleFeedback" class="text-sm sm:text-base font-extrabold text-sky-900 mt-2 text-center">
+                    Mula dengan sentuh warna <strong>Merah</strong>!
+                </div>
+            </section>
+
+            <!-- ==================== SKRIN 7: AKTIVITI 3 - CAMPUR WARNA AJAIB ==================== -->
+            <section id="screen-6" class="app-screen flex-col items-center justify-between w-full h-full py-2">
+                <div class="text-center">
+                    <h2 class="text-2xl sm:text-3xl font-black text-purple-900">Aktiviti 3: Campur Warna Ajaib! 🧪</h2>
+                    <p class="text-purple-700 font-bold text-sm sm:text-lg">Pilih 2 warna ajaib dan lihat warna baru yang terhasil!</p>
+                </div>
+
+                <!-- Meja Makmal Percampuran Warna -->
+                <div class="w-full max-w-xl bg-white p-4 sm:p-6 rounded-3xl border-4 border-purple-200 shadow-lg flex flex-col items-center justify-center my-auto">
+                    <div class="flex items-center justify-center gap-3 sm:gap-6 my-4">
+                        <!-- Bekas Warna 1 -->
+                        <div id="mixFlask1" class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-slate-100 border-4 border-slate-300 flex items-center justify-center text-4xl shadow-inner transition-colors duration-300">
+                            ❓
+                        </div>
+                        <span class="text-3xl font-black text-purple-600">+</span>
+                        <!-- Bekas Warna 2 -->
+                        <div id="mixFlask2" class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-slate-100 border-4 border-slate-300 flex items-center justify-center text-4xl shadow-inner transition-colors duration-300">
+                            ❓
+                        </div>
+                        <span class="text-3xl font-black text-purple-600">=</span>
+                        <!-- Bekas Hasil Percampuran -->
+                        <div id="mixFlaskResult" class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-slate-200 border-4 border-purple-400 flex flex-col items-center justify-center text-white font-black text-xs sm:text-sm shadow-md transition-all duration-500 scale-105">
+                            <span class="text-4xl mb-1">✨</span>
+                            <span id="mixResultName" class="text-purple-950 font-bold">Hasil</span>
+                        </div>
+                    </div>
+
+                    <div id="mixExplainText" class="text-center text-purple-900 font-extrabold text-base sm:text-lg bg-purple-50 px-4 py-2 rounded-2xl border border-purple-200 w-full">
+                        Pilih 2 cecair warna di bawah:
+                    </div>
+                </div>
+
+                <!-- Butang Pilihan Warna Primer -->
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <button onclick="selectMixColor('Merah', '#ef4444')" class="btn-kid px-5 py-3 rounded-2xl bg-red-500 text-white font-black text-base shadow-[0_5px_0_#991b1b]">
+                        🔴 Merah
+                    </button>
+                    <button onclick="selectMixColor('Kuning', '#eab308')" class="btn-kid px-5 py-3 rounded-2xl bg-yellow-400 text-yellow-950 font-black text-base shadow-[0_5px_0_#854d0e]">
+                        🟡 Kuning
+                    </button>
+                    <button onclick="selectMixColor('Biru', '#3b82f6')" class="btn-kid px-5 py-3 rounded-2xl bg-blue-600 text-white font-black text-base shadow-[0_5px_0_#1e3a8a]">
+                        🔵 Biru
+                    </button>
+                    <button onclick="resetColorMix()" class="btn-kid px-4 py-3 rounded-2xl bg-slate-200 text-slate-800 font-black text-base shadow-[0_5px_0_#94a3b8]" title="Mula Semula">
+                        🔄
+                    </button>
+                </div>
+            </section>
+
+            <!-- ==================== SKRIN 8: AKTIVITI 4 - TANGKAP TITISAN AIR & CAHAYA ==================== -->
+            <section id="screen-7" class="app-screen flex-col items-center justify-between w-full h-full py-2">
+                <div class="text-center">
+                    <h2 class="text-2xl sm:text-3xl font-black text-cyan-900">Aktiviti 4: Tangkap Air & Cahaya! 💧☀️</h2>
+                    <p class="text-cyan-700 font-bold text-sm sm:text-lg">Sentuh titisan air dan matahari yang terapung sebelum hilang!</p>
+                </div>
+
+                <!-- Meter Tenaga Pelangi -->
+                <div class="w-full max-w-md bg-white p-3 rounded-2xl border-2 border-cyan-300 shadow-sm flex items-center gap-3 my-1">
+                    <span class="text-2xl">🌈</span>
+                    <div class="flex-1 bg-slate-100 h-6 rounded-full overflow-hidden border border-slate-300 relative">
+                        <div id="catchProgressBar" class="h-full bg-gradient-to-r from-cyan-400 via-amber-300 to-purple-500 w-0 transition-all duration-300"></div>
+                    </div>
+                    <span id="catchScoreText" class="font-black text-cyan-900 text-sm">0 / 6</span>
+                </div>
+
+                <!-- Kawasan Menangkap Objek Terapung -->
+                <div id="catchPlayArea" class="w-full max-w-2xl h-56 sm:h-64 bg-gradient-to-b from-sky-100 to-blue-200 rounded-3xl border-4 border-cyan-400 shadow-inner relative overflow-hidden my-auto flex items-center justify-center">
+                    <div id="catchVictoryCard" class="hidden text-center bg-white/95 p-6 rounded-3xl border-4 border-emerald-400 shadow-2xl animate-bounce">
+                        <span class="text-6xl">🌈✨</span>
+                        <h3 class="text-2xl font-black text-emerald-700 mt-2">Horeee! Pelangi Muncul!</h3>
+                        <p class="text-emerald-900 font-bold text-sm">Air dan cahaya dah bersatu!</p>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button onclick="startCatchGame()" class="btn-kid bg-cyan-500 hover:bg-cyan-600 text-white font-black text-lg px-8 py-3 rounded-2xl shadow-[0_6px_0_#0e7490]">
+                        Mula Tangkap! 🎮
+                    </button>
+                </div>
+            </section>
+
+            <!-- ==================== SKRIN 9: AKTIVITI 5 - APA YANG DIPERLUKAN PELANGI ==================== -->
+            <section id="screen-8" class="app-screen flex-col items-center justify-between w-full h-full py-2">
+                <div class="text-center">
+                    <h2 class="text-2xl sm:text-3xl font-black text-emerald-900">Aktiviti 5: Apa Yang Diperlukan? ☀️💧</h2>
+                    <p class="text-emerald-700 font-bold text-sm sm:text-lg">Sentuh 2 benda yang membantu menghasilkan pelangi!</p>
+                </div>
+
+                <!-- Grid Gambar Pilihan -->
+                <div class="w-full max-w-2xl grid grid-cols-3 gap-3 sm:gap-4 p-2 my-auto">
+                    <button onclick="checkItemRequirement(true, 'Matahari')" class="btn-kid h-28 sm:h-32 bg-white rounded-3xl border-4 border-amber-300 shadow-[0_6px_0_#f59e0b] flex flex-col items-center justify-center hover:bg-amber-50">
+                        <span class="text-5xl sm:text-6xl">☀️</span>
+                        <span class="font-extrabold text-amber-950 text-sm mt-1">Matahari</span>
+                    </button>
+                    <button onclick="checkItemRequirement(false, 'Kereta')" class="btn-kid h-28 sm:h-32 bg-white rounded-3xl border-4 border-slate-200 shadow-[0_6px_0_#94a3b8] flex flex-col items-center justify-center hover:bg-slate-50">
+                        <span class="text-5xl sm:text-6xl">🚗</span>
+                        <span class="font-extrabold text-slate-800 text-sm mt-1">Kereta</span>
+                    </button>
+                    <button onclick="checkItemRequirement(true, 'Titisan Air')" class="btn-kid h-28 sm:h-32 bg-white rounded-3xl border-4 border-cyan-300 shadow-[0_6px_0_#06b6d4] flex flex-col items-center justify-center hover:bg-cyan-50">
+                        <span class="text-5xl sm:text-6xl">💧</span>
+                        <span class="font-extrabold text-cyan-950 text-sm mt-1">Titisan Air</span>
+                    </button>
+                    <button onclick="checkItemRequirement(false, 'Ais Krim')" class="btn-kid h-28 sm:h-32 bg-white rounded-3xl border-4 border-slate-200 shadow-[0_6px_0_#94a3b8] flex flex-col items-center justify-center hover:bg-slate-50">
+                        <span class="text-5xl sm:text-6xl">🍦</span>
+                        <span class="font-extrabold text-slate-800 text-sm mt-1">Ais Krim</span>
+                    </button>
+                    <button onclick="checkItemRequirement(false, 'Rumah')" class="btn-kid h-28 sm:h-32 bg-white rounded-3xl border-4 border-slate-200 shadow-[0_6px_0_#94a3b8] flex flex-col items-center justify-center hover:bg-slate-50">
+                        <span class="text-5xl sm:text-6xl">🏠</span>
+                        <span class="font-extrabold text-slate-800 text-sm mt-1">Rumah</span>
+                    </button>
+                    <button onclick="checkItemRequirement(false, 'Bulan')" class="btn-kid h-28 sm:h-32 bg-white rounded-3xl border-4 border-slate-200 shadow-[0_6px_0_#94a3b8] flex flex-col items-center justify-center hover:bg-slate-50">
+                        <span class="text-5xl sm:text-6xl">🌙</span>
+                        <span class="font-extrabold text-slate-800 text-sm mt-1">Bulan</span>
+                    </button>
+                </div>
+
+                <!-- Maklum Balas -->
+                <div id="needsFeedback" class="text-center font-extrabold text-base sm:text-xl text-emerald-950 bg-emerald-100 border border-emerald-300 px-6 py-2 rounded-2xl">
+                    Pilih objek yang memancarkan cahaya dan titisan sejuk!
+                </div>
+            </section>
+
+            <!-- ==================== SKRIN 10: XILOFON MUZIK PELANGI ==================== -->
+            <section id="screen-9" class="app-screen flex-col items-center justify-between w-full h-full py-2">
+                <div class="text-center">
+                    <h2 class="text-2xl sm:text-3xl font-black text-indigo-900">Xilofon Warna Pelangi 🎹🎶</h2>
+                    <p class="text-indigo-700 font-bold text-sm sm:text-lg">Tekan kekunci warna untuk cipta lagu ceria!</p>
+                </div>
+
+                <!-- Papan Kekunci Xilofon 7 Nada -->
+                <div class="w-full max-w-2xl h-56 sm:h-64 bg-white/90 p-4 rounded-3xl border-4 border-indigo-200 shadow-xl flex items-end justify-center gap-2 sm:gap-3 my-auto">
+                    <button onclick="playXyloKey(261.63, 'Do (Merah)')" class="btn-kid bg-red-500 h-full flex-1 rounded-2xl border-2 border-white shadow-[0_6px_0_#991b1b] flex flex-col items-center justify-between py-3 text-white font-black text-sm sm:text-base">
+                        <span>🔴</span><span>Do</span>
+                    </button>
+                    <button onclick="playXyloKey(293.66, 'Re (Jingga)')" class="btn-kid bg-orange-500 h-[92%] flex-1 rounded-2xl border-2 border-white shadow-[0_6px_0_#c2410c] flex flex-col items-center justify-between py-3 text-white font-black text-sm sm:text-base">
+                        <span>🟠</span><span>Re</span>
+                    </button>
+                    <button onclick="playXyloKey(329.63, 'Mi (Kuning)')" class="btn-kid bg-yellow-400 h-[84%] flex-1 rounded-2xl border-2 border-white shadow-[0_6px_0_#a16207] flex flex-col items-center justify-between py-3 text-yellow-950 font-black text-sm sm:text-base">
+                        <span>🟡</span><span>Mi</span>
+                    </button>
+                    <button onclick="playXyloKey(349.23, 'Fa (Hijau)')" class="btn-kid bg-green-500 h-[76%] flex-1 rounded-2xl border-2 border-white shadow-[0_6px_0_#15803d] flex flex-col items-center justify-between py-3 text-white font-black text-sm sm:text-base">
+                        <span>🟢</span><span>Fa</span>
+                    </button>
+                    <button onclick="playXyloKey(392.00, 'Sol (Biru)')" class="btn-kid bg-cyan-500 h-[68%] flex-1 rounded-2xl border-2 border-white shadow-[0_6px_0_#0e7490] flex flex-col items-center justify-between py-3 text-white font-black text-sm sm:text-base">
+                        <span>🔵</span><span>Sol</span>
+                    </button>
+                    <button onclick="playXyloKey(440.00, 'La (Nila)')" class="btn-kid bg-blue-600 h-[60%] flex-1 rounded-2xl border-2 border-white shadow-[0_6px_0_#1d4ed8] flex flex-col items-center justify-between py-3 text-white font-black text-sm sm:text-base">
+                        <span>🔹</span><span>La</span>
+                    </button>
+                    <button onclick="playXyloKey(493.88, 'Ti (Ungu)')" class="btn-kid bg-purple-500 h-[52%] flex-1 rounded-2xl border-2 border-white shadow-[0_6px_0_#6b21a8] flex flex-col items-center justify-between py-3 text-white font-black text-sm sm:text-base">
+                        <span>🟣</span><span>Ti</span>
+                    </button>
+                </div>
+
+                <div id="xyloFeedback" class="text-center font-black text-indigo-900 text-base sm:text-xl">
+                    Sentuh mana-mana kekunci warna! 🎵
+                </div>
+            </section>
+
+            <!-- ==================== SKRIN 11: TEKA CUACA PELANGI ==================== -->
+            <section id="screen-10" class="app-screen flex-col items-center justify-between w-full h-full py-2">
+                <div class="text-center">
+                    <h2 class="text-2xl sm:text-3xl font-black text-amber-900">Bila Pelangi Muncul? 🌤️</h2>
+                    <p class="text-amber-700 font-bold text-sm sm:text-lg">Pilih suasana cuaca yang membolehkan pelangi terbit!</p>
+                </div>
+
+                <!-- 4 Pilihan Suasana Cuaca -->
+                <div class="w-full max-w-2xl grid grid-cols-2 gap-4 p-2 my-auto">
+                    <button onclick="checkWeatherChoice(true)" class="btn-kid p-4 bg-gradient-to-br from-amber-100 to-sky-200 rounded-3xl border-4 border-amber-300 shadow-[0_6px_0_#f59e0b] flex flex-col items-center text-center">
+                        <span class="text-5xl sm:text-6xl mb-2">🌦️☀️</span>
+                        <span class="font-black text-amber-950 text-base sm:text-lg">Ada Hujan & Ada Matahari</span>
+                        <span class="text-xs text-amber-800 font-bold mt-1">Cuaca yang sangat sesuai!</span>
+                    </button>
+                    <button onclick="checkWeatherChoice(false)" class="btn-kid p-4 bg-gradient-to-br from-indigo-100 to-slate-200 rounded-3xl border-4 border-slate-300 shadow-[0_6px_0_#64748b] flex flex-col items-center text-center">
+                        <span class="text-5xl sm:text-6xl mb-2">🌙⭐</span>
+                        <span class="font-black text-slate-800 text-base sm:text-lg">Malam Gelap Gelita</span>
+                        <span class="text-xs text-slate-600 font-bold mt-1">Tiada cahaya matahari.</span>
+                    </button>
+                    <button onclick="checkWeatherChoice(false)" class="btn-kid p-4 bg-gradient-to-br from-slate-200 to-slate-300 rounded-3xl border-4 border-slate-300 shadow-[0_6px_0_#64748b] flex flex-col items-center text-center">
+                        <span class="text-5xl sm:text-6xl mb-2">⛈️⚡</span>
+                        <span class="font-black text-slate-800 text-base sm:text-lg">Ribut Petir Gelap</span>
+                        <span class="text-xs text-slate-600 font-bold mt-1">Matahari terlindung awan tebal.</span>
+                    </button>
+                    <button onclick="checkWeatherChoice(false)" class="btn-kid p-4 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-3xl border-4 border-slate-300 shadow-[0_6px_0_#64748b] flex flex-col items-center text-center">
+                        <span class="text-5xl sm:text-6xl mb-2">❄️⛄</span>
+                        <span class="font-black text-slate-800 text-base sm:text-lg">Salji Sangat Sejuk</span>
+                        <span class="text-xs text-slate-600 font-bold mt-1">Bukan titisan air cecair.</span>
+                    </button>
+                </div>
+
+                <div id="weatherFeedback" class="text-center font-extrabold text-base sm:text-lg text-amber-950 bg-amber-100 px-6 py-2 rounded-2xl border border-amber-300">
+                    Ketik pilihan yang paling tepat!
+                </div>
+            </section>
+
+            <!-- ==================== SKRIN 12: EKSPERIMEN MAYA (LAMPU & SEMBURAN) ==================== -->
+            <section id="screen-11" class="app-screen flex-col items-center justify-between w-full h-full py-2">
+                <div class="text-center">
+                    <h2 class="text-2xl sm:text-3xl font-black text-orange-900">Eksperimen Maya di Rumah! 🧪</h2>
+                    <p class="text-orange-700 font-bold text-sm sm:text-lg">Hidupkan lampu suluh dan picit semburan air untuk buat pelangi sendiri!</p>
+                </div>
+
+                <!-- Bilik Eksperimen Maya -->
+                <div class="w-full max-w-2xl flex-1 bg-slate-900 rounded-3xl border-4 border-orange-300 p-6 flex items-center justify-between relative overflow-hidden shadow-2xl my-auto">
+                    <!-- Lampu Suluh Interaktif -->
+                    <div class="flex flex-col items-center z-10">
+                        <button onclick="toggleTorch()" id="btnTorch" class="btn-kid bg-amber-400 text-amber-950 w-20 h-20 rounded-2xl flex flex-col items-center justify-center font-black shadow-[0_5px_0_#b45309]">
+                            <span class="text-4xl">🔦</span>
+                            <span id="torchStatusLabel" class="text-xs mt-1">OFF</span>
+                        </button>
+                        <span class="text-white text-xs font-bold mt-2">Lampu Suluh</span>
+                    </div>
+
+                    <!-- Pancaran Cahaya Suluh -->
+                    <div id="torchBeamCone" class="h-28 flex-1 opacity-0 transition-opacity duration-300 bg-gradient-to-r from-yellow-200/90 via-yellow-100/40 to-transparent mx-2 rounded-l-full"></div>
+
+                    <!-- Semburan Air Interaktif -->
+                    <div class="flex flex-col items-center z-10">
+                        <button onclick="pressWaterSpray()" id="btnSpray" class="btn-kid bg-cyan-400 text-cyan-950 w-20 h-20 rounded-2xl flex flex-col items-center justify-center font-black shadow-[0_5px_0_#0891b2]">
+                            <span class="text-4xl">💦</span>
+                            <span class="text-xs mt-1">SEMBUR</span>
+                        </button>
+                        <span class="text-white text-xs font-bold mt-2">Botol Sembur</span>
+                    </div>
+
+                    <!-- Pelangi Yang Terhasil Pada Dinding -->
+                    <div id="miniRainbowWall" class="absolute right-4 top-1/2 -translate-y-1/2 w-28 h-40 opacity-0 transition-all duration-700 flex flex-col justify-center items-center">
+                        <div class="w-full h-full rounded-2xl flex flex-col overflow-hidden shadow-[0_0_20px_#fff]">
+                            <div class="h-1/7 bg-red-500"></div>
+                            <div class="h-1/7 bg-orange-500"></div>
+                            <div class="h-1/7 bg-yellow-400"></div>
+                            <div class="h-1/7 bg-green-500"></div>
+                            <div class="h-1/7 bg-cyan-500"></div>
+                            <div class="h-1/7 bg-blue-600"></div>
+                            <div class="h-1/7 bg-purple-500"></div>
+                        </div>
+                        <span class="text-white text-xs font-black mt-1">Pelangi Dinding! 🌈</span>
+                    </div>
+                </div>
+
+                <div id="experimentFeedback" class="text-center font-black text-orange-950 text-sm sm:text-base bg-orange-100 px-6 py-2 rounded-2xl border border-orange-300">
+                    Langkah: 1. Hidupkan Lampu Suluh, 2. Picit Semburan Air! 💡
+                </div>
+            </section>
+
+            <!-- ==================== SKRIN 13: KANVAS MEWARNA PELANGI ==================== -->
+            <section id="screen-12" class="app-screen flex-col items-center justify-between w-full h-full py-2">
+                <div class="flex items-center justify-between w-full max-w-2xl px-2">
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-black text-emerald-900">Bilik Mewarna Digital 🎨</h2>
+                        <p class="text-emerald-700 font-bold text-xs sm:text-sm">Gunakan jari atau tetikus untuk melukis pelangi!</p>
+                    </div>
+                    <button onclick="clearPaintBoard()" class="btn-kid bg-rose-400 text-white font-black px-4 py-2 rounded-2xl shadow-[0_4px_0_#be123c] text-xs sm:text-sm">
+                        🗑️ Bersihkan
+                    </button>
+                </div>
+
+                <!-- Kanvas Melukis -->
+                <div class="w-full max-w-2xl flex-1 bg-white rounded-3xl border-4 border-emerald-300 shadow-inner my-2 relative overflow-hidden flex items-center justify-center">
+                    <canvas id="paintCanvas" class="w-full h-full touch-none cursor-crosshair bg-sky-50"></canvas>
+                </div>
+
+                <!-- Palet Warna & Berus -->
+                <div class="w-full max-w-2xl flex flex-wrap items-center justify-center gap-2 sm:gap-3 bg-emerald-100 p-2 sm:p-3 rounded-2xl border-2 border-emerald-300">
+                    <button onclick="setBrushColor('#ef4444')" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-red-500 border-2 border-white shadow-md active:scale-125" title="Merah"></button>
+                    <button onclick="setBrushColor('#f97316')" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-orange-500 border-2 border-white shadow-md active:scale-125" title="Jingga"></button>
+                    <button onclick="setBrushColor('#eab308')" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-yellow-400 border-2 border-white shadow-md active:scale-125" title="Kuning"></button>
+                    <button onclick="setBrushColor('#22c55e')" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-green-500 border-2 border-white shadow-md active:scale-125" title="Hijau"></button>
+                    <button onclick="setBrushColor('#06b6d4')" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-cyan-500 border-2 border-white shadow-md active:scale-125" title="Biru"></button>
+                    <button onclick="setBrushColor('#3b82f6')" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-blue-600 border-2 border-white shadow-md active:scale-125" title="Nila"></button>
+                    <button onclick="setBrushColor('#a855f7')" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-purple-500 border-2 border-white shadow-md active:scale-125" title="Ungu"></button>
+                    <button onclick="setBrushColor('#ffffff')" class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white border-2 border-slate-400 shadow-md flex items-center justify-center text-sm" title="Pemadam">🧽</button>
+                </div>
+            </section>
+
+            <!-- ==================== SKRIN 14: KUIS CERIA 5 SOALAN ==================== -->
+            <section id="screen-13" class="app-screen flex-col items-center justify-between w-full h-full py-2">
+                <div class="text-center">
+                    <span id="quizBadge" class="bg-amber-100 text-amber-900 border border-amber-300 text-xs sm:text-sm font-extrabold px-4 py-1 rounded-full">
+                        Soalan 1 daripada 5
+                    </span>
+                    <h2 id="quizQuestionText" class="text-xl sm:text-3xl font-black text-sky-950 mt-1 max-w-xl">
+                        Apakah yang muncul selepas hujan ada matahari?
+                    </h2>
+                </div>
+
+                <!-- 3 Pilihan Jawapan Kuis Bergambar -->
+                <div id="quizOptionsContainer" class="w-full max-w-xl flex flex-col gap-3 my-auto">
+                    <!-- Kandungan dijana oleh renderQuizQuestion() -->
+                </div>
+
+                <!-- Maklum Balas Kuis -->
+                <div id="quizFeedbackBox" class="text-center font-black text-sky-900 text-base sm:text-lg h-8 flex items-center justify-center">
+                    Pilih jawapan yang betul ya! ⭐
+                </div>
+            </section>
+
+            <!-- ==================== SKRIN 15: TAHNIAH & PESTA HADIAH BINTANG ==================== -->
+            <section id="screen-14" class="app-screen flex-col items-center justify-between w-full h-full py-4 text-center">
+                <div class="my-auto">
+                    <div class="text-7xl sm:text-8xl animate-bounce-cute mb-3">🏆🌈🎉</div>
+                    <h2 class="text-3xl sm:text-5xl font-black text-emerald-800 tracking-wide">
+                        TAHNIAH! ADIK HEBAT!
+                    </h2>
+                    <p class="text-lg sm:text-2xl text-emerald-700 font-bold mt-2 max-w-lg mx-auto">
+                        Adik dah belajar semua rahsia tentang pelangi yang indah!
+                    </p>
+
+                    <!-- Kad Skor Bintang -->
+                    <div class="bg-gradient-to-r from-amber-100 via-yellow-200 to-amber-100 border-4 border-amber-400 p-4 sm:p-6 rounded-3xl shadow-xl inline-flex items-center gap-4 my-6">
+                        <span class="text-5xl sm:text-6xl animate-spin-slow">⭐</span>
+                        <div class="text-left">
+                            <span class="text-xs sm:text-sm font-extrabold text-amber-900 uppercase tracking-wider">Jumlah Bintang:</span>
+                            <h3 id="finalStarCount" class="text-3xl sm:text-5xl font-black text-amber-700">0 Bintang</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Butang Main Semula -->
+                <div class="mt-auto pb-4">
+                    <button onclick="goToScreen(0)" class="btn-kid bg-gradient-to-r from-sky-400 to-teal-500 hover:brightness-110 text-white font-black text-xl sm:text-3xl px-10 py-4 rounded-full shadow-[0_8px_0_#0f766e] flex items-center gap-3 border-2 border-white mx-auto">
+                        <span>🔄</span>
+                        <span>MAIN SEMULA!</span>
+                        <span>✨</span>
+                    </button>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- PALANG BAWAH (NAVIGASI PREV & NEXT) -->
+        <footer class="h-20 bg-sky-100 px-4 sm:px-8 flex items-center justify-between border-t-4 border-sky-300 z-20">
+            <button id="btnPrev" onclick="navigatePrev()" class="btn-kid bg-white hover:bg-slate-50 text-sky-800 font-black px-5 sm:px-8 py-3 rounded-2xl flex items-center gap-2 sm:gap-3 shadow-[0_5px_0_#0284c7] text-base sm:text-xl border border-sky-200">
+                <span>◀️</span>
+                <span>Kembali</span>
+            </button>
+
+            <!-- Titik-titik Petunjuk Halaman Interaktif -->
+            <div id="paginationDots" class="hidden md:flex items-center gap-1.5 overflow-x-auto max-w-md py-1">
+                <!-- Dijana oleh JS -->
+            </div>
+
+            <button id="btnNext" onclick="navigateNext()" class="btn-kid bg-gradient-to-r from-amber-400 to-orange-400 hover:brightness-110 text-white font-black px-6 sm:px-9 py-3 rounded-2xl flex items-center gap-2 sm:gap-3 shadow-[0_5px_0_#c2410c] text-base sm:text-xl border border-white">
+                <span>Seterusnya</span>
+                <span>▶️</span>
+            </button>
+        </footer>
+
+    </main>
+
+    <!-- Kanvas Bunga Api / Konfeti Kemenangan -->
+    <canvas id="confettiCanvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+    <!-- ========================================================================= -->
+    <!-- JAVASCRIPT LOGIK MEDIA PEMBELAJARAN INTERAKTIF -->
+    <!-- ========================================================================= -->
+    <script>
+        /* -------------------------------------------------------------------------
+           1. KEADAAN GLOBAL APLIKASI (GLOBAL STATE)
+           ------------------------------------------------------------------------- */
+        let currentScreen = 0;
+        const totalScreens = 15;
+        let starScore = 0;
+        let voiceActive = true;
+        let audioCtx = null;
+        let currentSpeechUtterance = null;
+
+        // Senarai Tajuk Skrin
+        const screenTitles = [
+            "Selamat Datang! 🌈",
+            "Kenali 7 Warna Pelangi",
+            "Dari Mana Pelangi Datang?",
+            "Simulasi Ajaib Cahaya",
+            "Aktiviti 1: Cari Warna",
+            "Aktiviti 2: Susun Pelangi",
+            "Aktiviti 3: Campur Warna",
+            "Aktiviti 4: Tangkap Air & Cahaya",
+            "Aktiviti 5: Keperluan Pelangi",
+            "Xilofon Warna Pelangi",
+            "Teka Suasana Cuaca",
+            "Eksperimen Maya di Rumah",
+            "Bilik Mewarna Pelangi",
+            "Kuis Ceria 5 Soalan",
+            "Pesta Bintang & Hadiah! 🎉"
+        ];
+
+        /* -------------------------------------------------------------------------
+           2. SINTESIS BUNYI & AUDIO (WEB AUDIO API)
+           ------------------------------------------------------------------------- */
+        function initAudioContext() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContextClass();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // Mainkan Nada Muzik Sintesis Lembut
+        function playTone(freq, type = 'sine', duration = 0.35, gainLevel = 0.25) {
+            try {
+                initAudioContext();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(gainLevel, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                console.warn("Audio Context ralat:", e);
+            }
+        }
+
+        // Bunyi Pop Ceria
+        function playPopSound() {
+            playTone(520, 'sine', 0.15, 0.3);
+            setTimeout(() => playTone(880, 'sine', 0.18, 0.25), 50);
+        }
+
+        // Bunyi Kilauan Bintang (Chime)
+        function playSparkleSound() {
+            const notes = [523.25, 659.25, 783.99, 1046.50];
+            notes.forEach((freq, idx) => {
+                setTimeout(() => playTone(freq, 'triangle', 0.25, 0.2), idx * 70);
+            });
+        }
+
+        // Bunyi Tahniah Kemenangan (Fanfare)
+        function playVictorySound() {
+            const chord = [261.63, 329.63, 392.00, 523.25];
+            chord.forEach((freq, i) => {
+                setTimeout(() => playTone(freq, 'triangle', 0.5, 0.3), i * 90);
+            });
+            setTimeout(() => {
+                [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+                    setTimeout(() => playTone(freq, 'sine', 0.7, 0.35), i * 90);
+                });
+            }, 400);
+        }
+
+        // Bunyi 'Boing' Lembut Sekiranya Kurang Tepat (Tidak mengejutkan)
+        function playGentleWrongSound() {
+            playTone(300, 'sine', 0.2, 0.2);
+            setTimeout(() => playTone(240, 'sine', 0.3, 0.2), 100);
+        }
+
+        /* -------------------------------------------------------------------------
+           3. SEBUTAN SUARA KANAK-KANAK (TEXT-TO-SPEECH)
+           ------------------------------------------------------------------------- */
+        function speakNarrator(text) {
+            if (!voiceActive) return;
+            if (!('speechSynthesis' in window)) return;
+
+            window.speechSynthesis.cancel(); // Hentikan ucapan terdahulu
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.92; // Sedikit santai agar jelas untuk kanak-kanak
+            utterance.pitch = 1.15; // Nada ceria dan mesra
+
+            // Cari suara Bahasa Melayu atau Bahasa Indonesia
+            const voices = window.speechSynthesis.getVoices();
+            const preferredVoice = voices.find(v => v.lang.startsWith('ms') || v.lang.startsWith('id'));
+            if (preferredVoice) {
+                utterance.voice = preferredVoice;
+            }
+
+            currentSpeechUtterance = utterance;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function toggleVoice() {
+            voiceActive = !voiceActive;
+            const btn = document.getElementById('btnSoundToggle');
+            if (voiceActive) {
+                btn.innerHTML = '🔊';
+                btn.classList.replace('text-slate-400', 'text-amber-600');
+                speakNarrator("Suara dihidupkan!");
+            } else {
+                window.speechSynthesis.cancel();
+                btn.innerHTML = '🔇';
+                btn.classList.replace('text-amber-600', 'text-slate-400');
+            }
+            playPopSound();
+        }
+
+        function repeatCurrentVoice() {
+            playPopSound();
+            readScreenInstructions(currentScreen);
+        }
+
+        /* -------------------------------------------------------------------------
+           4. PENGURUSAN SISTEM GANJARAN BINTANG & KESAN KONFETI
+           ------------------------------------------------------------------------- */
+        function awardStars(points = 1) {
+            starScore += points;
+            document.getElementById('starCounter').innerText = starScore;
+            document.getElementById('finalStarCount').innerText = `${starScore} Bintang ⭐`;
+            playSparkleSound();
+            launchMiniConfetti();
+        }
+
+        // Letupan Konfeti Berwarna-warni
+        function launchMiniConfetti() {
+            const canvas = document.getElementById('confettiCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const colors = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#06b6d4', '#3b82f6', '#a855f7'];
+
+            for (let i = 0; i < 40; i++) {
+                particles.push({
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 14,
+                    vy: (Math.random() - 0.8) * 16,
+                    size: Math.random() * 8 + 6,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rot: Math.random() * 360,
+                    vRot: (Math.random() - 0.5) * 10
+                });
+            }
+
+            let frames = 0;
+            function animateConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.4; // Graviti
+                    p.rot += p.vRot;
+
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.rot * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+                });
+
+                frames++;
+                if (frames < 50) {
+                    requestAnimationFrame(animateConfetti);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            animateConfetti();
+        }
+
+        /* -------------------------------------------------------------------------
+           5. NAVIGASI SKRIN & PENUKARAN HALAMAN
+           ------------------------------------------------------------------------- */
+        function goToScreen(targetIndex) {
+            if (targetIndex < 0 || targetIndex >= totalScreens) return;
+            initAudioContext();
+            playPopSound();
+
+            // Sembunyikan skrin semasa
+            const allScreens = document.querySelectorAll('.app-screen');
+            allScreens.forEach(sc => sc.classList.remove('active'));
+
+            currentScreen = targetIndex;
+            const nextScreenElem = document.getElementById(`screen-${currentScreen}`);
+            if (nextScreenElem) {
+                nextScreenElem.classList.add('active');
+            }
+
+            // Kemas kini tajuk dan nombor petunjuk
+            document.getElementById('screenIndicator').innerText = `${currentScreen + 1} / ${totalScreens}`;
+            document.getElementById('screenTitle').innerText = screenTitles[currentScreen];
+
+            // Selaraskan Butang Prev & Next
+            const btnPrev = document.getElementById('btnPrev');
+            const btnNext = document.getElementById('btnNext');
+
+            btnPrev.style.visibility = (currentScreen === 0) ? 'hidden' : 'visible';
+            btnNext.style.visibility = (currentScreen === totalScreens - 1) ? 'hidden' : 'visible';
+
+            updatePaginationDots();
+            onScreenActivated(currentScreen);
+        }
+
+        function navigateNext() {
+            if (currentScreen < totalScreens - 1) {
+                goToScreen(currentScreen + 1);
+            }
+        }
+
+        function navigatePrev() {
+            if (currentScreen > 0) {
+                goToScreen(currentScreen - 1);
+            }
+        }
+
+        function buildPaginationDots() {
+            const container = document.getElementById('paginationDots');
+            container.innerHTML = '';
+            for (let i = 0; i < totalScreens; i++) {
+                const dot = document.createElement('button');
+                dot.className = `w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === 0 ? 'bg-amber-400 w-6' : 'bg-sky-300'}`;
+                dot.onclick = () => goToScreen(i);
+                dot.id = `pageDot-${i}`;
+                container.appendChild(dot);
+            }
+        }
+
+        function updatePaginationDots() {
+            for (let i = 0; i < totalScreens; i++) {
+                const dot = document.getElementById(`pageDot-${i}`);
+                if (dot) {
+                    if (i === currentScreen) {
+                        dot.className = 'w-6 h-2.5 rounded-full bg-amber-400 transition-all duration-300';
+                    } else {
+                        dot.className = 'w-2.5 h-2.5 rounded-full bg-sky-300 hover:bg-sky-400 transition-all duration-300';
+                    }
+                }
+            }
+        }
+
+        function startApp() {
+            awardStars(1);
+            goToScreen(1);
+        }
+
+        // Tindakan Automatik Apabila Skrin Dibuka
+        function onScreenActivated(idx) {
+            readScreenInstructions(idx);
+
+            switch (idx) {
+                case 2:
+                    changeStoryStep(1);
+                    break;
+                case 4:
+                    generateFindColorRound();
+                    break;
+                case 5:
+                    resetPuzzleGame();
+                    break;
+                case 6:
+                    resetColorMix();
+                    break;
+                case 7:
+                    resetCatchGame();
+                    break;
+                case 11:
+                    resetTorchExperiment();
+                    break;
+                case 12:
+                    setTimeout(initPaintCanvas, 100);
+                    break;
+                case 13:
+                    currentQuizIdx = 0;
+                    renderQuizQuestion();
+                    break;
+                case 14:
+                    playVictorySound();
+                    launchMiniConfetti();
+                    break;
+            }
+        }
+
+        function readScreenInstructions(idx) {
+            switch (idx) {
+                case 0:
+                    speakNarrator("Yuk, bermain dengan pelangi! Tekan butang jom mula!");
+                    break;
+                case 1:
+                    speakNarrator("Kenali tujuh warna pelangi! Sentuh setiap warna untuk mendengar bunyinya!");
+                    break;
+                case 2:
+                    speakNarrator("Dari mana datangnya pelangi? Tekan langkah satu, dua, dan tiga!");
+                    break;
+                case 3:
+                    speakNarrator("Mari lihat prosesnya! Tekan butang pancarkan cahaya!");
+                    break;
+                case 4:
+                    speakNarrator("Aktiviti satu. Jom cari warna pelangi!");
+                    break;
+                case 5:
+                    speakNarrator("Aktiviti dua. Jom susun warna pelangi mengikut urutan!");
+                    break;
+                case 6:
+                    speakNarrator("Aktiviti tiga. Campur dua warna cecair ajaib!");
+                    break;
+                case 7:
+                    speakNarrator("Aktiviti empat. Tangkap titisan air dan cahaya matahari!");
+                    break;
+                case 8:
+                    speakNarrator("Aktiviti lima. Pilih benda yang membantu terjadinya pelangi!");
+                    break;
+                case 9:
+                    speakNarrator("Xilofon warna pelangi. Tekan kekunci untuk main muzik!");
+                    break;
+                case 10:
+                    speakNarrator("Bila pelangi muncul? Pilih gambar cuaca yang betul!");
+                    break;
+                case 11:
+                    speakNarrator("Eksperimen maya. Hidupkan lampu suluh dan picit semburan air!");
+                    break;
+                case 12:
+                    speakNarrator("Bilik mewarna. Gunakan jarimu untuk melukis pelangi!");
+                    break;
+                case 13:
+                    speakNarrator("Kuis ceria. Jawab lima soalan bergambar!");
+                    break;
+                case 14:
+                    speakNarrator("Tahniah! Adik sangat hebat dan pintar!");
+                    break;
+            }
+        }
+
+        /* -------------------------------------------------------------------------
+           6. LOGIK SKRIN 2: 7 WARNA PELANGI
+           ------------------------------------------------------------------------- */
+        function clickRainbowColor(name, colorHex, freq) {
+            playTone(freq, 'triangle', 0.45, 0.35);
+            const box = document.getElementById('colorFeedbackBox');
+            box.style.borderColor = colorHex;
+            box.innerHTML = `Ini warna <strong>${name}</strong>! Sangat cantik! ✨`;
+            speakNarrator(`Warna ${name}!`);
+        }
+
+        /* -------------------------------------------------------------------------
+           7. LOGIK SKRIN 3: CERITA DARI MANA PELANGI DATANG
+           ------------------------------------------------------------------------- */
+        function changeStoryStep(step) {
+            playPopSound();
+            const visual = document.getElementById('storyActors');
+            const textCard = document.getElementById('storyCardText');
+
+            [1, 2, 3].forEach(s => {
+                const btn = document.getElementById(`storyStepBtn${s}`);
+                if (s === step) {
+                    btn.classList.add('scale-110', 'ring-4', 'ring-white');
+                } else {
+                    btn.classList.remove('scale-110', 'ring-4', 'ring-white');
+                }
+            });
+
+            if (step === 1) {
+                visual.innerHTML = `
+                    <div class="flex flex-col items-center animate-bounce-cute">
+                        <span class="text-7xl">☁️</span>
+                        <div class="flex gap-2 text-3xl mt-1 animate-pulse">💧 💧 💧</div>
+                    </div>
+                `;
+                textCard.innerHTML = `<p class="text-sky-900 font-extrabold text-lg sm:text-2xl">1. Hujan turun membasahi bumi. Udara dipenuhi titisan air yang segar! 🌧️</p>`;
+                speakNarrator("Satu. Selepas hujan turun, masih ada banyak titisan air halus di udara.");
+            } else if (step === 2) {
+                visual.innerHTML = `
+                    <div class="flex items-center gap-6">
+                        <span class="text-7xl animate-pulse-glow">☀️</span>
+                        <span class="text-4xl text-amber-500 font-black">➡️</span>
+                        <span class="text-6xl animate-bounce">💧</span>
+                    </div>
+                `;
+                textCard.innerHTML = `<p class="text-amber-900 font-extrabold text-lg sm:text-2xl">2. Matahari bersinar ceria! Cahayanya bertemu dengan titisan air di udara! ☀️💧</p>`;
+                speakNarrator("Dua. Cahaya matahari yang terang menyinari titisan-titisan air itu.");
+            } else if (step === 3) {
+                visual.innerHTML = `
+                    <div class="flex flex-col items-center animate-pulse">
+                        <span class="text-8xl">🌈</span>
+                        <span class="text-4xl mt-1">✨🎉✨</span>
+                    </div>
+                `;
+                textCard.innerHTML = `<p class="text-emerald-900 font-extrabold text-lg sm:text-2xl">3. Ting! Cahaya terbias dan muncullah pelangi tujuh warna di langit! 🌈✨</p>`;
+                speakNarrator("Tiga. Lalu muncullah pelangi yang sangat indah di langit!");
+                awardStars(1);
+            }
+        }
+
+        /* -------------------------------------------------------------------------
+           8. LOGIK SKRIN 4: SIMULASI PANCARAN CAHAYA
+           ------------------------------------------------------------------------- */
+        function triggerLightSimulation() {
+            playTone(392, 'sine', 0.2);
+            const beamWhite = document.getElementById('simBeamWhite');
+            const rainbowBeam = document.getElementById('simRainbowBeam');
+            const statusText = document.getElementById('simStatusText');
+
+            // Fasa 1: Sinaran keluar dari matahari ke titisan air
+            beamWhite.style.width = "100%";
+            rainbowBeam.classList.add('opacity-0', 'scale-75');
+
+            setTimeout(() => {
+                playSparkleSound();
+                // Fasa 2: Titisan air membiaskan pelangi
+                rainbowBeam.classList.remove('opacity-0', 'scale-75');
+                rainbowBeam.classList.add('opacity-100', 'scale-100');
+                statusText.innerHTML = `🎉 <strong class="text-emerald-700">Berjaya! Cahaya putih terpecah menjadi 7 warna pelangi!</strong>`;
+                speakNarrator("Lihat! Cahaya matahari bertemu titisan air, lalu berubah menjadi warna-warni pelangi!");
+                awardStars(1);
+            }, 700);
+        }
+
+        /* -------------------------------------------------------------------------
+           9. LOGIK SKRIN 5: CARI WARNA PELANGI
+           ------------------------------------------------------------------------- */
+        const targetColorList = ['Merah', 'Kuning', 'Hijau', 'Biru', 'Ungu', 'Jingga'];
+        let currentTargetColor = 'Merah';
+
+        function generateFindColorRound() {
+            currentTargetColor = targetColorList[Math.floor(Math.random() * targetColorList.length)];
+            const prompt = document.getElementById('findColorPrompt');
+            prompt.innerHTML = `Di manakah warna <strong>${currentTargetColor.toUpperCase()}</strong>? 🔍`;
+            speakNarrator(`Ayo cari warna ${currentTargetColor}!`);
+        }
+
+        function checkColorPick(selectedColor) {
+            const feedback = document.getElementById('findColorFeedback');
+            if (selectedColor === currentTargetColor) {
+                playSparkleSound();
+                feedback.innerHTML = `🎉 <span class="text-emerald-600 font-black">Hebat! Adik jumpa warna ${selectedColor}!</span>`;
+                speakNarrator(`Hebat! Itu warna ${selectedColor}!`);
+                awardStars(1);
+                setTimeout(generateFindColorRound, 1500);
+            } else {
+                playGentleWrongSound();
+                feedback.innerHTML = `💡 <span class="text-rose-600 font-black">Itu warna ${selectedColor}. Cuba cari warna ${currentTargetColor} lagi ya!</span>`;
+                speakNarrator(`Cuba lagi ya, cari warna ${currentTargetColor}!`);
+            }
+        }
+
+        /* -------------------------------------------------------------------------
+           10. LOGIK SKRIN 6: SUSUN WARNA PELANGI
+           ------------------------------------------------------------------------- */
+        const puzzleSequence = ['Merah', 'Kuning', 'Hijau', 'Biru', 'Ungu'];
+        let puzzleCurrentStep = 0;
+
+        function resetPuzzleGame() {
+            puzzleCurrentStep = 0;
+            document.getElementById('puzzleArchContainer').innerHTML = '';
+            document.getElementById('puzzleDoneBanner').classList.add('hidden');
+            document.getElementById('puzzleFeedback').innerHTML = `Mula dengan sentuh warna <strong>Merah</strong>!`;
+        }
+
+        function addPuzzlePiece(colorName, colorHex) {
+            const required = puzzleSequence[puzzleCurrentStep];
+            const feedback = document.getElementById('puzzleFeedback');
+
+            if (colorName === required) {
+                playTone(300 + puzzleCurrentStep * 60, 'triangle', 0.25);
+                const container = document.getElementById('puzzleArchContainer');
+
+                const stripe = document.createElement('div');
+                stripe.className = 'w-full h-5 rounded-full shadow-md animate-bounce-cute';
+                stripe.style.backgroundColor = colorHex;
+                container.appendChild(stripe);
+
+                puzzleCurrentStep++;
+
+                if (puzzleCurrentStep >= puzzleSequence.length) {
+                    playVictorySound();
+                    document.getElementById('puzzleDoneBanner').classList.remove('hidden');
+                    speakNarrator("Hebat! Pelangimu sudah lengkap tersusun!");
+                    awardStars(2);
+                } else {
+                    const nextColor = puzzleSequence[puzzleCurrentStep];
+                    feedback.innerHTML = `Betul! Seterusnya cari warna <strong>${nextColor}</strong>!`;
+                    speakNarrator(`Bagus! Sekarang warna ${nextColor}!`);
+                }
+            } else {
+                playGentleWrongSound();
+                feedback.innerHTML = `Belum tepat. Adik perlu sentuh warna <strong>${required}</strong>!`;
+                speakNarrator(`Belum lagi. Cuba sentuh warna ${required}!`);
+            }
+        }
+
+        /* -------------------------------------------------------------------------
+           11. LOGIK SKRIN 7: CAMPUR WARNA AJAIB
+           ------------------------------------------------------------------------- */
+        let mixColor1 = null;
+        let mixColor2 = null;
+
+        function selectMixColor(name, hex) {
+            playPopSound();
+            const f1 = document.getElementById('mixFlask1');
+            const f2 = document.getElementById('mixFlask2');
+            const text = document.getElementById('mixExplainText');
+
+            if (!mixColor1) {
+                mixColor1 = { name, hex };
+                f1.style.backgroundColor = hex;
+                f1.innerHTML = '🧪';
+                text.innerText = `Adik dah pilih ${name}! Sekarang pilih warna kedua!`;
+                speakNarrator(`Warna ${name}. Pilih satu warna lagi!`);
+            } else if (!mixColor2) {
+                mixColor2 = { name, hex };
+                f2.style.backgroundColor = hex;
+                f2.innerHTML = '🧪';
+                computeColorMix();
+            }
+        }
+
+        function computeColorMix() {
+            const resFlask = document.getElementById('mixFlaskResult');
+            const resName = document.getElementById('mixResultName');
+            const text = document.getElementById('mixExplainText');
+
+            const pair = [mixColor1.name, mixColor2.name].sort().join('+');
+            let outputName = "Warna Baru";
+            let outputHex = "#9333ea";
+
+            if (pair === "Kuning+Merah") {
+                outputName = "Jingga (Orange)! 🟠";
+                outputHex = "#f97316";
+            } else if (pair === "Biru+Kuning") {
+                outputName = "Hijau! 🟢";
+                outputHex = "#22c55e";
+            } else if (pair === "Biru+Merah") {
+                outputName = "Ungu! 🟣";
+                outputHex = "#a855f7";
+            } else {
+                outputName = "Warna Sama! ✨";
+                outputHex = mixColor1.hex;
+            }
+
+            playSparkleSound();
+            resFlask.style.backgroundColor = outputHex;
+            resName.innerText = outputName;
+            text.innerHTML = `✨ Ajaib! <strong>${mixColor1.name}</strong> + <strong>${mixColor2.name}</strong> jadi <strong>${outputName}</strong>!`;
+            speakNarrator(`Ajaib! Campuran ini menghasilkan warna ${outputName}!`);
+            awardStars(1);
+        }
+
+        function resetColorMix() {
+            playPopSound();
+            mixColor1 = null;
+            mixColor2 = null;
+            const f1 = document.getElementById('mixFlask1');
+            const f2 = document.getElementById('mixFlask2');
+            const resFlask = document.getElementById('mixFlaskResult');
+            const resName = document.getElementById('mixResultName');
+
+            f1.style.backgroundColor = '#f1f5f9';
+            f1.innerHTML = '❓';
+            f2.style.backgroundColor = '#f1f5f9';
+            f2.innerHTML = '❓';
+            resFlask.style.backgroundColor = '#e2e8f0';
+            resName.innerText = 'Hasil';
+            document.getElementById('mixExplainText').innerText = 'Pilih 2 cecair warna di bawah:';
+        }
+
+        /* -------------------------------------------------------------------------
+           12. LOGIK SKRIN 8: TANGKAP AIR & CAHAYA
+           ------------------------------------------------------------------------- */
+        let caughtCount = 0;
+        let catchInterval = null;
+
+        function resetCatchGame() {
+            clearInterval(catchInterval);
+            caughtCount = 0;
+            updateCatchUI();
+            document.getElementById('catchVictoryCard').classList.add('hidden');
+            const playArea = document.getElementById('catchPlayArea');
+            playArea.querySelectorAll('.floating-target').forEach(el => el.remove());
+        }
+
+        function startCatchGame() {
+            resetCatchGame();
+            playPopSound();
+            speakNarrator("Sentuh titisan air dan matahari yang muncul!");
+            spawnFloatingItem();
+            catchInterval = setInterval(spawnFloatingItem, 900);
+        }
+
+        function updateCatchUI() {
+            const bar = document.getElementById('catchProgressBar');
+            const text = document.getElementById('catchScoreText');
+            const percent = Math.min(100, (caughtCount / 6) * 100);
+            bar.style.width = `${percent}%`;
+            text.innerText = `${caughtCount} / 6`;
+        }
+
+        function spawnFloatingItem() {
+            if (caughtCount >= 6) {
+                clearInterval(catchInterval);
+                return;
+            }
+            const playArea = document.getElementById('catchPlayArea');
+            const isSun = Math.random() > 0.5;
+
+            const item = document.createElement('button');
+            item.className = 'floating-target absolute text-4xl sm:text-5xl cursor-pointer active:scale-125 transition-transform p-2 animate-bounce-cute';
+            item.innerText = isSun ? '☀️' : '💧';
+
+            const maxX = Math.max(50, playArea.clientWidth - 70);
+            const maxY = Math.max(40, playArea.clientHeight - 70);
+            item.style.left = `${Math.floor(Math.random() * maxX)}px`;
+            item.style.top = `${Math.floor(Math.random() * maxY)}px`;
+
+            item.onclick = () => {
+                playPopSound();
+                caughtCount++;
+                updateCatchUI();
+                item.remove();
+
+                if (caughtCount >= 6) {
+                    clearInterval(catchInterval);
+                    playVictorySound();
+                    document.getElementById('catchVictoryCard').classList.remove('hidden');
+                    speakNarrator("Horeee! Adik berjaya mengumpulkan air dan cahaya! Pelangi muncul!");
+                    awardStars(2);
+                }
+            };
+
+            playArea.appendChild(item);
+            setTimeout(() => { if (item.parentNode) item.remove(); }, 2000);
+        }
+
+        /* -------------------------------------------------------------------------
+           13. LOGIK SKRIN 9: APA YANG DIPERLUKAN PELANGI
+           ------------------------------------------------------------------------- */
+        let selectedGoodNeeds = 0;
+
+        function checkItemRequirement(isCorrect, itemName) {
+            const feedback = document.getElementById('needsFeedback');
+            if (isCorrect) {
+                playSparkleSound();
+                selectedGoodNeeds++;
+                feedback.innerHTML = `🎉 <strong class="text-emerald-700">Tepat sekali! ${itemName} sangat diperlukan untuk buat pelangi!</strong>`;
+                speakNarrator(`Betul! ${itemName} diperlukan untuk menghasilkan pelangi!`);
+                awardStars(1);
+            } else {
+                playGentleWrongSound();
+                feedback.innerHTML = `💡 <strong class="text-slate-700">${itemName} tidak diperlukan untuk membuat pelangi. Cuba cari yang lain!</strong>`;
+                speakNarrator(`${itemName} tidak boleh buat pelangi. Cuba pilih yang lain!`);
+            }
+        }
+
+        /* -------------------------------------------------------------------------
+           14. LOGIK SKRIN 10: XILOFON MUZIK PELANGI
+           ------------------------------------------------------------------------- */
+        function playXyloKey(freq, label) {
+            playTone(freq, 'triangle', 0.4, 0.35);
+            const feedback = document.getElementById('xyloFeedback');
+            feedback.innerText = `🎵 Nada: ${label}`;
+        }
+
+        /* -------------------------------------------------------------------------
+           15. LOGIK SKRIN 11: TEKA CUACA PELANGI
+           ------------------------------------------------------------------------- */
+        function checkWeatherChoice(isRight) {
+            const feedback = document.getElementById('weatherFeedback');
+            if (isRight) {
+                playSparkleSound();
+                feedback.innerHTML = `🎉 <strong class="text-emerald-700">Tepat! Pelangi muncul bila ada hujan gerimis dan matahari bersinar!</strong>`;
+                speakNarrator("Tepat sekali! Pelangi muncul bila ada hujan dan matahari bersinar bersama-sama!");
+                awardStars(1);
+            } else {
+                playGentleWrongSound();
+                feedback.innerHTML = `💡 <strong class="text-amber-800">Bukan cuaca ini. Pelangi perlukan titisan air dan cahaya serentak!</strong>`;
+                speakNarrator("Bukan cuaca ini. Cari cuaca yang ada hujan dan matahari!");
+            }
+        }
+
+        /* -------------------------------------------------------------------------
+           16. LOGIK SKRIN 12: EKSPERIMEN MAYA (LAMPU & SEMBURAN)
+           ------------------------------------------------------------------------- */
+        let torchOn = false;
+        let waterSprayed = false;
+
+        function resetTorchExperiment() {
+            torchOn = false;
+            waterSprayed = false;
+            document.getElementById('torchBeamCone').classList.add('opacity-0');
+            document.getElementById('miniRainbowWall').classList.add('opacity-0');
+            document.getElementById('torchStatusLabel').innerText = "OFF";
+            document.getElementById('experimentFeedback').innerHTML = "Langkah: 1. Hidupkan Lampu Suluh, 2. Picit Semburan Air! 💡";
+        }
+
+        function toggleTorch() {
+            playPopSound();
+            torchOn = !torchOn;
+            const beam = document.getElementById('torchBeamCone');
+            const label = document.getElementById('torchStatusLabel');
+
+            if (torchOn) {
+                beam.classList.remove('opacity-0');
+                label.innerText = "ON";
+                speakNarrator("Lampu suluh dah menyala!");
+                checkExperimentOutcome();
+            } else {
+                beam.classList.add('opacity-0');
+                label.innerText = "OFF";
+                checkExperimentOutcome();
+            }
+        }
+
+        function pressWaterSpray() {
+            playTone(600, 'sine', 0.1);
+            waterSprayed = true;
+            speakNarrator("Sembur titisan air!");
+            checkExperimentOutcome();
+        }
+
+        function checkExperimentOutcome() {
+            const rainbow = document.getElementById('miniRainbowWall');
+            const feedback = document.getElementById('experimentFeedback');
+
+            if (torchOn && waterSprayed) {
+                playSparkleSound();
+                rainbow.classList.remove('opacity-0');
+                feedback.innerHTML = `🎉 <strong class="text-emerald-700">Berjaya! Cahaya lampu bertemu semburan air dan menghasilkan pelangi pada dinding!</strong>`;
+                speakNarrator("Lihat pada dinding! Pelangi mini adik dah muncul!");
+                awardStars(2);
+            } else if (!torchOn && waterSprayed) {
+                rainbow.classList.add('opacity-0');
+                feedback.innerHTML = `💡 <strong class="text-orange-900">Perlu hidupkan lampu suluh dahulu supaya ada cahaya!</strong>`;
+            } else {
+                rainbow.classList.add('opacity-0');
+            }
+        }
+
+        /* -------------------------------------------------------------------------
+           17. LOGIK SKRIN 13: KANVAS MEWARNA PELANGI
+           ------------------------------------------------------------------------- */
+        let canvas, ctx;
+        let isPainting = false;
+        let currentBrushColor = '#ef4444';
+
+        function initPaintCanvas() {
+            canvas = document.getElementById('paintCanvas');
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
+
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+
+            ctx.lineWidth = 12;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            // Event Tetikus
+            canvas.onmousedown = (e) => { isPainting = true; drawStroke(e); };
+            canvas.onmousemove = (e) => { if (isPainting) drawStroke(e); };
+            window.onmouseup = () => { isPainting = false; ctx.beginPath(); };
+
+            // Event Sentuhan Jari Skrin Sentuh
+            canvas.ontouchstart = (e) => { isPainting = true; drawTouch(e); };
+            canvas.ontouchmove = (e) => { if (isPainting) drawTouch(e); };
+            window.ontouchend = () => { isPainting = false; ctx.beginPath(); };
+        }
+
+        function getCanvasPos(evt) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        }
+
+        function drawStroke(e) {
+            const pos = getCanvasPos(e);
+            ctx.strokeStyle = currentBrushColor;
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        }
+
+        function drawTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const pos = getCanvasPos(touch);
+            ctx.strokeStyle = currentBrushColor;
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        }
+
+        function setBrushColor(color) {
+            playPopSound();
+            currentBrushColor = color;
+            ctx.lineWidth = (color === '#ffffff') ? 24 : 12; // Pemadam lebih tebal
+        }
+
+        function clearPaintBoard() {
+            playPopSound();
+            if (ctx && canvas) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        /* -------------------------------------------------------------------------
+           18. LOGIK SKRIN 14: KUIS CERIA 5 SOALAN
+           ------------------------------------------------------------------------- */
+        const quizData = [
+            {
+                q: "1. Apakah yang muncul di langit selepas hujan dan ada matahari?",
+                options: [
+                    { text: "Pelangi 🌈", isRight: true },
+                    { text: "Bulan 🌙", isRight: false },
+                    { text: "Batu 🪨", isRight: false }
+                ]
+            },
+            {
+                q: "2. Siapakah yang memancarkan cahaya terang untuk membuat pelangi?",
+                options: [
+                    { text: "Matahari ☀️", isRight: true },
+                    { text: "Pokok 🌳", isRight: false },
+                    { text: "Kereta 🚗", isRight: false }
+                ]
+            },
+            {
+                q: "3. Pelangi mempunyai berapa banyak warna yang cantik?",
+                options: [
+                    { text: "7 Warna 🎨", isRight: true },
+                    { text: "1 Warna Sahaja ⚪", isRight: false },
+                    { text: "Tiada Warna ❌", isRight: false }
+                ]
+            },
+            {
+                q: "4. Air dalam proses terjadinya pelangi berada dalam bentuk...",
+                options: [
+                    { text: "Titisan Air Halus 💧", isRight: true },
+                    { text: "Ais Batu Keras 🧊", isRight: false },
+                    { text: "Lumpur Coklat 🟫", isRight: false }
+                ]
+            },
+            {
+                q: "5. Yang manakah gambar pelangi yang betul?",
+                options: [
+                    { text: "Pelangi Lengkung 🌈", isRight: true },
+                    { text: "Bola Sepak ⚽", isRight: false },
+                    { text: "Rumah Comel 🏠", isRight: false }
+                ]
+            }
+        ];
+
+        let currentQuizIdx = 0;
+
+        function renderQuizQuestion() {
+            const q = quizData[currentQuizIdx];
+            document.getElementById('quizBadge').innerText = `Soalan ${currentQuizIdx + 1} daripada ${quizData.length}`;
+            document.getElementById('quizQuestionText').innerText = q.q;
+
+            const container = document.getElementById('quizOptionsContainer');
+            container.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-kid w-full bg-white hover:bg-sky-50 text-sky-950 font-black text-lg sm:text-xl py-4 px-6 rounded-3xl border-4 border-sky-300 shadow-[0_6px_0_#0284c7] flex items-center justify-between text-left';
+                btn.innerHTML = `<span>${opt.text}</span><span class="text-2xl">👉</span>`;
+                btn.onclick = () => answerQuiz(opt.isRight);
+                container.appendChild(btn);
+            });
+
+            document.getElementById('quizFeedbackBox').innerText = 'Pilih jawapan yang betul ya! ⭐';
+            speakNarrator(q.q);
+        }
+
+        function answerQuiz(isCorrect) {
+            const feedback = document.getElementById('quizFeedbackBox');
+            if (isCorrect) {
+                playSparkleSound();
+                awardStars(1);
+                feedback.innerHTML = `🎉 <span class="text-emerald-600 font-black">Betul! Adik sangat bijak!</span>`;
+                speakNarrator("Jawapan adik tepat!");
+
+                setTimeout(() => {
+                    currentQuizIdx++;
+                    if (currentQuizIdx < quizData.length) {
+                        renderQuizQuestion();
+                    } else {
+                        playVictorySound();
+                        goToScreen(14); // Pindah ke skrin hadiah penutup
+                    }
+                }, 1300);
+            } else {
+                playGentleWrongSound();
+                feedback.innerHTML = `💡 <span class="text-rose-600 font-black">Cuba fikir lagi sekali ya!</span>`;
+                speakNarrator("Cuba lagi sekali!");
+            }
+        }
+
+        /* -------------------------------------------------------------------------
+           19. INISIALISASI MULA (ON WINDOW LOAD)
+           ------------------------------------------------------------------------- */
+        window.addEventListener('load', () => {
+            buildPaginationDots();
+            goToScreen(0);
+        });
+    </script>
+</body>
+</html>
